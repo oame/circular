@@ -2,7 +2,7 @@
 
 The easiest way to pick-up circles you followed from Twitter.
 
-## Hot to use
+## How to use
 
 1. Create `.env` file on project root
 2. Put following lines into `.env`
