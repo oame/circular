@@ -1,0 +1,23 @@
+{
+  "name": "circular",
+  "version": "0.0.0",
+  "description": "The easiest way to pick-up circles you followed from Twitter.",
+  "main": "app.js",
+  "dependencies": {
+    "errorhandler": "^1.1.1",
+    "express": "^4.7.0",
+    "jade": "^1.5.0",
+    "oauth": "^0.9.12"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oame/circular.git"
+  },
+  "author": "o_ame",
+  "license": "MIT",
+  "homepage": "https://github.com/oame/circular"
+}
