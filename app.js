@@ -1,31 +1,50 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var passport = require('passport');
+var TwitterStrategy = require('passport-twitter').Strategy;
+var app = express();
+
+// view engine setup
+app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views'));
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
+var twitterConsumerKey = "KjmpcR0LH6UwOzPp0HhKHqpD2";
+var twitterConsumerSecret = "Sy3qXwGqiChAjnjDvx3A1nq8znF0PekjwZrUk17aGrMEjc5jg4";
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(session({secret: 'secret'}));
-app.use(require('node-compass')({mode: 'expanded'}));
+app.use(session({secret: 'secret',
+                 saveUninitialized: true,
+                 resave: true}));
 app.use(express.static(path.join(__dirname, 'public')));
+
+passport.use(new TwitterStrategy({
+    consumerKey: twitterConsumerKey,
+    consumerSecret: twitterConsumerSecret,
+    callbackURL: "http://localhost:3000/auth/twitter/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+    console.log(token);
+    done();
+  }
+));
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', { successRedirect: '/',
+    failureRedirect: '/' }));
 
 app.use(function(req, res, next){
   res.locals.user = req.session.user;
